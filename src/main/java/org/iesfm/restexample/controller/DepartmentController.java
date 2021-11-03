@@ -1,28 +1,52 @@
 package org.iesfm.restexample.controller;
 
 import org.iesfm.restexample.Department;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.iesfm.restexample.dao.DepartmentDAO;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
 public class DepartmentController {
 
-    private List<Department> departments = Arrays.asList(
-            new Department("Informatica", "cosas de ordenadores"),
-            new Department("Ventas", "cosas de ventas"));
+    private DepartmentDAO departmentDAO;
 
-    @RequestMapping(method = RequestMethod.GET, path = "/department")
-    public List<Department> list() {
-        return departments;
+    public DepartmentController(DepartmentDAO departmentDAO) {
+        this.departmentDAO = departmentDAO;
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/department")
+    public List<Department> list() {
+        return departmentDAO.list();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "/department")
     public void createDepartment(@RequestBody Department department) {
-        departments.add(department);
+        departmentDAO.insert(department);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/department/{departmentName}")
+    public Department getDepartment(@PathVariable("departmentName") String departmentName) {
+        Department department = departmentDAO.get(departmentName);
+
+        if (department == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "department not found");
+        } else {
+            return department;
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, path = "department/{departmentName}")
+    public void deleteDepartment(@PathVariable("departmentName") String departmentName) {
+
+        Department department = departmentDAO.get(departmentName);
+
+        if (department == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "department not found");
+        } else {
+            departmentDAO.deleteDepartment(departmentName);
+        }
     }
 }
