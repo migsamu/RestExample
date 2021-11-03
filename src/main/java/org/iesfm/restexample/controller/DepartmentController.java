@@ -2,6 +2,7 @@ package org.iesfm.restexample.controller;
 
 import org.iesfm.restexample.Department;
 import org.iesfm.restexample.dao.DepartmentDAO;
+import org.iesfm.restexample.dao.jdbc.JdbcDepartmentDAO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -40,13 +41,8 @@ public class DepartmentController {
 
     @RequestMapping(method = RequestMethod.DELETE, path = "department/{departmentName}")
     public void deleteDepartment(@PathVariable("departmentName") String departmentName) {
+        getDepartment(departmentName);
+        departmentDAO.deleteDepartment(departmentName);
 
-        Department department = departmentDAO.get(departmentName);
-
-        if (department == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "department not found");
-        } else {
-            departmentDAO.deleteDepartment(departmentName);
-        }
     }
 }
