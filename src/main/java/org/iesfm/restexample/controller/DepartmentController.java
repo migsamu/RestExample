@@ -2,7 +2,7 @@ package org.iesfm.restexample.controller;
 
 import org.iesfm.restexample.Department;
 import org.iesfm.restexample.dao.DepartmentDAO;
-import org.iesfm.restexample.dao.jdbc.JdbcDepartmentDAO;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -30,12 +30,12 @@ public class DepartmentController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/department/{departmentName}")
     public Department getDepartment(@PathVariable("departmentName") String departmentName) {
-        Department department = departmentDAO.get(departmentName);
 
-        if (department == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "department not found");
-        } else {
+        try {
+            Department department = departmentDAO.get(departmentName);
             return department;
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "department not found");
         }
     }
 
