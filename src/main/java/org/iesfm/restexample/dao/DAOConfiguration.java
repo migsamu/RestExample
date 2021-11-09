@@ -1,6 +1,8 @@
 package org.iesfm.restexample.dao;
 
+
 import org.iesfm.restexample.dao.jdbc.JdbcDepartmentDAO;
+import org.iesfm.restexample.dao.jdbc.JdbcEmployeeDAO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,5 +48,9 @@ public class DAOConfiguration {
         return new JdbcDepartmentDAO(jdbc);
     }
 
+    @Bean
+    public EmployeeDAO employeeDAO(NamedParameterJdbcTemplate jdbc) {
+        return new JdbcEmployeeDAO(jdbc);
+    }
 
 }
