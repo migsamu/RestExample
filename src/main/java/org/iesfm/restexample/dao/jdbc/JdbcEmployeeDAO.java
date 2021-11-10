@@ -20,13 +20,13 @@ public class JdbcEmployeeDAO implements EmployeeDAO {
             "name," +
             "surname," +
             "role," +
-            "department_name)" +
+            "department_name) " +
             "VALUES(" +
             ":nif," +
             ":name," +
             ":surname," +
             ":role," +
-            "departmentName)";
+            ":departmentName)";
 
     private static final RowMapper<Employee> EMPLOYEE_ROW_MAPPER =
             (rs, n) ->
@@ -60,7 +60,7 @@ public class JdbcEmployeeDAO implements EmployeeDAO {
     }
 
     @Override
-    public void insert(Employee employee) {
+    public boolean insert(Employee employee) {
 
         Map<String, Object> params = new HashMap<>();
 
@@ -68,13 +68,13 @@ public class JdbcEmployeeDAO implements EmployeeDAO {
         params.put("name", employee.getName());
         params.put("surname", employee.getSurname());
         params.put("role", employee.getRole());
-        params.put("department_name", employee.getDepartmentName());
-
-        jdbc.update(INSERT_EMPLOYEE, params);
-
+        params.put("departmentName", employee.getDepartmentName());
+        return jdbc.update(INSERT_EMPLOYEE, params) == 1;
     }
 
+
     @Override
-    public void delete(String nif) {
+    public boolean delete(String nif) {
+        return false;
     }
 }

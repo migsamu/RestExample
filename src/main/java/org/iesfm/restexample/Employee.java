@@ -19,7 +19,7 @@ public class Employee {
             @JsonProperty("nif") String nif,
             @JsonProperty("name") String name,
             @JsonProperty("surname") String surname,
-            @JsonProperty("nif") String role,
+            @JsonProperty("role") String role,
             @JsonProperty("department_name") String departmentName) {
         this.nif = nif;
         this.name = name;

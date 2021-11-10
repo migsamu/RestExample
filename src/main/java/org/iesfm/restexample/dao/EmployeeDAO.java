@@ -10,9 +10,9 @@ public interface EmployeeDAO {
 
     Employee getEmployeeByNif(String nif);
 
-    void insert(Employee employee);
+    boolean insert(Employee employee);
 
-    void delete(String nif);
+    boolean delete(String nif);
 
 }
 /*
