@@ -36,9 +36,9 @@ public class EmployeeController {
 
     @RequestMapping(method = RequestMethod.POST, path = "/employees")
     public void insert(@RequestBody Employee employee) {
-       if (!employeeDAO.insert(employee)){
+        if (!employeeDAO.insert(employee)) {
 
-       }
+        }
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/employees/{nif}")
